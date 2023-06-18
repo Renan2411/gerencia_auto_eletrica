@@ -3,5 +3,6 @@ export default interface ClienteInterface{
     nome: string,
     telefone: string,
     cpf: string,
-    endereco: string
+    endereco: string,
+    email: string,
 }

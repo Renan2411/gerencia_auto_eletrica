@@ -1,6 +1,6 @@
-import { Box, Grid, Modal, TextField, Button } from "@mui/material";
-import './index.css'
 import { useEffect, useState } from "react";
+import { Box, Grid, Modal, TextField, Button } from "@mui/material";
+import uuid from "react-uuid";
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -14,42 +14,50 @@ const style = {
     p: 4,
 };
 
-export default function PecasFormulario({ open, handleCloseModal, handleOnStorePeca, pecaEdicao, handleOnUpdatePeca }) {
+
+export default function ClienteFormulario({
+    open,
+    clienteEdicao,
+    handleCloseModal,
+    handleOnStoreCliente,
+    handleOnUpdateCliente
+}) {
 
     const [nome, setNome] = useState('')
-    const [marca, setMarca] = useState('')
-    const [quantidade, setQuantidade] = useState(0)
-    const [descricao, setDescricao] = useState('')
-
+    const [telefone, setTelefone] = useState('')
+    const [cpf, setCpf] = useState('')
+    const [endereco, setEndereco] = useState('')
+    const [email, setEmail] = useState('')
 
     useEffect(() => {
-        setNome(pecaEdicao.nome)
-        setMarca(pecaEdicao.marca)
-        setDescricao(pecaEdicao.descricao)
-        setQuantidade(pecaEdicao.quantidade)
-    }, [pecaEdicao])
+        setNome(clienteEdicao.nome)
+        setTelefone(clienteEdicao.telefone)
+        setCpf(clienteEdicao.cpf)
+        setEndereco(clienteEdicao.endereco)
+        setEmail(clienteEdicao.email)
+    }, [clienteEdicao])
 
 
-    function resetarDados(){
+    function resetarDados() {
         setNome('')
-        setDescricao('')
-        setMarca('')
-        setQuantidade(0)
+        setTelefone('')
+        setCpf('')
+        setEndereco('')
+        setEmail('')
     }
 
     function fecharModal() {
         handleCloseModal()
     }
 
-    function salvarPeca(){
-
-        if(pecaEdicao.id !== ''){
-            handleOnUpdatePeca({id: pecaEdicao.id, nome, marca, quantidade, descricao})
+    function salvarPeca() {
+        if (clienteEdicao.id.length > 0) {
+            handleOnUpdateCliente({ id: clienteEdicao.id, nome, endereco, email, cpf, telefone })
             resetarDados()
             return
         }
 
-        handleOnStorePeca({nome, marca, quantidade, descricao})
+        handleOnStoreCliente({ id: uuid(),nome, endereco, email, cpf, telefone })
         resetarDados()
     }
 
@@ -79,9 +87,9 @@ export default function PecasFormulario({ open, handleCloseModal, handleOnStoreP
                                 <TextField
                                     className="campo-texto"
                                     variant="standard"
-                                    label="Marca"
-                                    value={marca}
-                                    onChange={(e) => setMarca(e.target.value)}
+                                    label="CPF"
+                                    value={cpf}
+                                    onChange={(e) => setCpf(e.target.value)}
                                 ></TextField>
                             </Grid>
 
@@ -89,10 +97,10 @@ export default function PecasFormulario({ open, handleCloseModal, handleOnStoreP
                                 <TextField
                                     className="campo-texto"
                                     variant="standard"
-                                    label="Quantidade"
-                                    type="number"
-                                    value={quantidade}
-                                    onChange={(e) => setQuantidade(e.target.value)}
+                                    label="Telefone"
+                                    type="tel"
+                                    value={telefone}
+                                    onChange={(e) => setTelefone(e.target.value)}
                                 ></TextField>
                             </Grid>
 
@@ -100,9 +108,20 @@ export default function PecasFormulario({ open, handleCloseModal, handleOnStoreP
                                 <TextField
                                     className="campo-texto"
                                     variant="standard"
-                                    label="Descrição"
-                                    value={descricao}
-                                    onChange={(e) => setDescricao(e.target.value)}
+                                    label="Email"
+                                    type="email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                ></TextField>
+                            </Grid>
+
+                            <Grid item xs={12}>
+                                <TextField
+                                    className="campo-texto"
+                                    variant="standard"
+                                    label="Endereço"
+                                    value={endereco}
+                                    onChange={(e) => setEndereco(e.target.value)}
                                 ></TextField>
                             </Grid>
 
@@ -113,7 +132,7 @@ export default function PecasFormulario({ open, handleCloseModal, handleOnStoreP
                                     color="success"
                                     onClick={salvarPeca}
                                 >
-                                    {pecaEdicao.id === '' ? 'Cadastrar' : 'Editar'}
+                                    {clienteEdicao.id === '' ? 'Cadastrar' : 'Editar'}
 
                                 </Button>
                             </Grid>
@@ -127,4 +146,5 @@ export default function PecasFormulario({ open, handleCloseModal, handleOnStoreP
 
         </>
     )
+
 }

@@ -34,7 +34,7 @@ export default function Pecas() {
 
     function resetarPecaEdicao() {
         setPecaEdicao({
-            id: 0,
+            id: '',
             nome: '',
             quantidade: 0,
             marca: '',
@@ -54,6 +54,7 @@ export default function Pecas() {
 
     return (
         <>
+            <h1>Listagem de Peças</h1>
 
             <PecasFormulario open={exibirModal} handleCloseModal={fecharModal} handleOnStorePeca={salvarPeca} pecaEdicao={pecaEdicao} handleOnUpdatePeca={editarPeca}></PecasFormulario>
 

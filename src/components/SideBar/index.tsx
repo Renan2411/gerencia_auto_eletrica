@@ -24,6 +24,7 @@ import opcoesMenu from '../../Configuracao/opcoesMenu'
 import Pecas from '../Pecas/Pecas'
 import { Icon } from '@mui/material';
 import { BrowserRouter, Route, Routes, Link } from 'react-router-dom';
+import Clientes from '../Clientes/Clientes';
 
 const drawerWidth = 240;
 
@@ -149,6 +150,7 @@ export default function PersistentDrawerLeft() {
           <DrawerHeader />
           <Routes>
             <Route path="/pecas" element={<Pecas />} />
+            <Route path="/clientes" element={<Clientes />} />
           </Routes>
         </Main>
       </Box>

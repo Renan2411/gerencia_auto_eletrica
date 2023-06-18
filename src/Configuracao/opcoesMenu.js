@@ -12,5 +12,10 @@ export default [
         nome: 'Peças',
         icone: 'inventory',
         path: '/pecas'
-    }
+    },
+    {
+        nome: 'Clientes',
+        icone: 'person',
+        path: '/clientes'
+    },
 ]
