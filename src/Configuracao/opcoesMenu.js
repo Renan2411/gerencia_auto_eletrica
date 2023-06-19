@@ -18,4 +18,9 @@ export default [
         icone: 'person',
         path: '/clientes'
     },
+    {
+        nome: 'Serviços',
+        icone: 'no_crash',
+        path: '/servicos'
+    },
 ]

@@ -4,4 +4,5 @@ export default interface PecaInterface{
     quantidade: number,
     descricao: string,
     marca: string,
+    valor: number,
 }

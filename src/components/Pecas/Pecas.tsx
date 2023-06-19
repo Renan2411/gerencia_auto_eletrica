@@ -3,14 +3,14 @@ import PecasTabela from "./Tabela/PecasTabela";
 import { Button } from "@mui/material";
 import PecasFormulario from "./Formulario/PecasFormulario";
 import './index.css'
-import PecaInterface from "../../Configuracao/PecaInterface";
+import PecaInterface from "../../Interfaces/PecaInterface";
 import { OficinaContext } from "../../context/OficinaContext";
 import uuid from "react-uuid";
 
 export default function Pecas() {
     const { pecas, handleAdicionarPeca, handleEditarPeca, handleDeletarPeca } = useContext(OficinaContext)
     const [exibirModal, setExibirModal] = useState(false)
-    const [pecaEdicao, setPecaEdicao] = useState<PecaInterface>({ id: 0, nome: '', descricao: '', quantidade: 0, marca: '' })
+    const [pecaEdicao, setPecaEdicao] = useState<PecaInterface>({ id: '', nome: '', descricao: '', quantidade: 0, marca: '', valor: 0 })
 
     function fecharModal() {
         setExibirModal(false)
@@ -38,7 +38,8 @@ export default function Pecas() {
             nome: '',
             quantidade: 0,
             marca: '',
-            descricao: ''
+            descricao: '',
+            valor: 0
         })
     }
 

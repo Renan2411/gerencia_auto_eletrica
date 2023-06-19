@@ -1,6 +1,6 @@
 import { useContext, useState } from "react"
 import { OficinaContext } from "../../context/OficinaContext"
-import ClienteInterface from "../../Configuracao/ClienteInterface"
+import ClienteInterface from "../../Interfaces/ClienteInterface"
 import uuid from "react-uuid"
 import PecasFormulario from "../Pecas/Formulario/PecasFormulario"
 import { Button } from "@mui/material"

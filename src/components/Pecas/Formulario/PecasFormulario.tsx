@@ -19,6 +19,7 @@ export default function PecasFormulario({ open, handleCloseModal, handleOnStoreP
     const [nome, setNome] = useState('')
     const [marca, setMarca] = useState('')
     const [quantidade, setQuantidade] = useState(0)
+    const [valor, setValor] = useState(0)
     const [descricao, setDescricao] = useState('')
 
 
@@ -34,6 +35,7 @@ export default function PecasFormulario({ open, handleCloseModal, handleOnStoreP
         setNome('')
         setDescricao('')
         setMarca('')
+        setValor(0)
         setQuantidade(0)
     }
 
@@ -44,12 +46,12 @@ export default function PecasFormulario({ open, handleCloseModal, handleOnStoreP
     function salvarPeca(){
 
         if(pecaEdicao.id !== ''){
-            handleOnUpdatePeca({id: pecaEdicao.id, nome, marca, quantidade, descricao})
+            handleOnUpdatePeca({id: pecaEdicao.id, nome, marca, quantidade, descricao, valor})
             resetarDados()
             return
         }
 
-        handleOnStorePeca({nome, marca, quantidade, descricao})
+        handleOnStorePeca({nome, marca, quantidade, descricao, valor})
         resetarDados()
     }
 
@@ -100,6 +102,17 @@ export default function PecasFormulario({ open, handleCloseModal, handleOnStoreP
                                 <TextField
                                     className="campo-texto"
                                     variant="standard"
+                                    label="Valor Unitário"
+                                    type="number"
+                                    value={valor}
+                                    onChange={(e) => setValor(e.target.value)}
+                                ></TextField>
+                            </Grid>
+
+                            <Grid item xs={12}>
+                                <TextField
+                                    className="campo-texto"
+                                    variant="standard"
                                     label="Descrição"
                                     value={descricao}
                                     onChange={(e) => setDescricao(e.target.value)}
@@ -113,7 +126,7 @@ export default function PecasFormulario({ open, handleCloseModal, handleOnStoreP
                                     color="success"
                                     onClick={salvarPeca}
                                 >
-                                    {pecaEdicao.id === '' ? 'Cadastrar' : 'Editar'}
+                                    {pecaEdicao.id.length === 0 ? 'Cadastrar' : 'Editar'}
 
                                 </Button>
                             </Grid>

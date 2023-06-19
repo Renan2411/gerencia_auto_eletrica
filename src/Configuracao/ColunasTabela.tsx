@@ -105,7 +105,13 @@ export function colunasTabelaPecas(pecas, handleDeletePeca, handleUpdatePeca) {
         },
         {
             field: 'quantidade',
-            headerName: 'Quantidade',
+            headerName: 'Quantidade Disponível',
+            width: 100,
+            editable: false,
+        },
+        {
+            field: 'valor',
+            headerName: 'Valor Unitário',
             width: 100,
             editable: false,
         },

@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from 'react'
-import PecaInterface from '../Configuracao/PecaInterface'
-import ClienteInterface from '../Configuracao/ClienteInterface'
+import PecaInterface from '../Interfaces/PecaInterface'
+import ClienteInterface from '../Interfaces/ClienteInterface'
 
 interface ContextProps {
     pecas: PecaInterface[],
@@ -23,6 +23,7 @@ export const OficinaProvider = ({ children }) => {
 
     const handleAdicionarPeca = (novaPeca: PecaInterface) => {
         setPecas(pecas => [novaPeca, ...pecas])
+        console.log(pecas)
     }
 
     const handleEditarPeca = (pecaEditada: PecaInterface) => {
