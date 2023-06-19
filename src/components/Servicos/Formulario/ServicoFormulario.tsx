@@ -21,23 +21,50 @@ const style = {
 };
 
 
-interface PecaUtilizadaInterface{
+interface PecaUtilizadaInterface {
     index: string,
     idPeca: string,
-    quantidade: string
+    quantidade: number
 }
 
-export default function ServicoFormulario({ open, handleCloseModal }) {
+interface QuantidadePecaUtilizadaInterface {
+    idPeca: string,
+    quantidade: number
+}
 
-    const { pecas, clientes } = useContext(OficinaContext)
+export default function ServicoFormulario({ open, servicoEdicao, handleCloseModal, handleSalvarServico }) {
+
+    const { pecas, clientes, handleFindPeca, handleFindCliente } = useContext(OficinaContext)
 
     const [data, setData] = useState<Dayjs | null>(null)
     const [descricao, setDescricao] = useState<string | null>()
     const [idCliente, setIdCliente] = useState<string>('')
     const [pecasUtilizadas, setPecasUtilizadas] = useState<PecaUtilizadaInterface[]>([])
-    const [quantidades, setQuantidades] = useState<[] | null>()
+    const [quantidades, setQuantidades] = useState<QuantidadePecaUtilizadaInterface[]>([])
+
+    useEffect(() => {
+        setData(servicoEdicao.data)
+        setDescricao(servicoEdicao.descricao)
+        setIdCliente(servicoEdicao.cliente.id)
+
+        servicoEdicao.pecas.map((peca) => {
+
+            const quantidadePeca = servicoEdicao.quantidades.find(quantidade => quantidade.idPeca === peca.id)
+
+            setPecasUtilizadas(pecasUtilizadas => [
+                ...pecasUtilizadas,
+                {
+                    index: uuid(),
+                    idPeca: peca.id,
+                    quantidade: quantidadePeca.quantidade
+                }
+            ])
+        })
+
+    }, [servicoEdicao])
 
     function fecharModal() {
+        resetarDados()
         handleCloseModal()
     }
 
@@ -57,13 +84,54 @@ export default function ServicoFormulario({ open, handleCloseModal }) {
             {
                 index: uuid(),
                 idPeca: '',
-                quantidade: ''
+                quantidade: 0
             },
         ])
     }
 
     function removerPecaUtilizada(index: string) {
         setPecasUtilizadas(pecasUtilizadas => pecasUtilizadas.filter(peca => peca.index !== index))
+    }
+
+    function tratarEventoCadastrarServico() {
+        const pecasParaServico = []
+        let valorTotal = 0
+
+        pecasUtilizadas.map((peca) => {
+
+            const retornoPecaFind = handleFindPeca!(peca.idPeca)
+
+            pecasParaServico.push(retornoPecaFind)
+
+            setQuantidades(quantidades => [...quantidades, {
+                quantidade: peca.quantidade,
+                idPeca: peca.idPeca,
+            }])
+
+            valorTotal += peca.quantidade * retornoPecaFind.valor
+
+        })
+
+        const servico = {
+            id: uuid(),
+            data: data,
+            descricao: descricao,
+            pecas: pecasParaServico,
+            quantidades: quantidades,
+            cliente: handleFindCliente!(idCliente),
+            valorTotal: valorTotal
+        }
+
+        handleSalvarServico(servico)
+        resetarDados()
+    }
+
+    function resetarDados() {
+        setData(null)
+        setDescricao('')
+        setIdCliente('')
+        setPecasUtilizadas([])
+        setQuantidades([])
     }
 
     return (
@@ -123,7 +191,7 @@ export default function ServicoFormulario({ open, handleCloseModal }) {
 
                             {pecasUtilizadas?.map(pecaUtilizada => {
 
-                                function deletePeca(){
+                                function deletePeca() {
                                     removerPecaUtilizada(pecaUtilizada.index)
                                 }
 
@@ -179,6 +247,7 @@ export default function ServicoFormulario({ open, handleCloseModal }) {
                                     className="botao"
                                     variant="contained"
                                     color="success"
+                                    onClick={tratarEventoCadastrarServico}
                                 >
                                     cadastrar
 
@@ -190,8 +259,6 @@ export default function ServicoFormulario({ open, handleCloseModal }) {
                 </Box>
 
             </Modal>
-
-
         </>
     )
 }

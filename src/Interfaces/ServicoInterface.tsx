@@ -9,5 +9,5 @@ export default interface ServicoInterface {
     cliente: ClienteInterface,
     pecas: PecaInterface[],
     descricao: string,
-    quantidade: []
+    quantidades: []
 }

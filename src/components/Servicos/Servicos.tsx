@@ -2,29 +2,49 @@ import { Button } from "@mui/material";
 import ServicoFormulario from "./Formulario/ServicoFormulario";
 import { useContext, useEffect, useState } from "react";
 import { OficinaContext } from "../../context/OficinaContext";
+import ServicoInterface from "../../Interfaces/ServicoInterface";
+import ServicosTabela from "./Tabela/ServicoTabela";
 
-export default function Servico(){
-    const {clientes} = useContext(OficinaContext)
+export default function Servico() {
+    const { handleAdicionarServico, servicos } = useContext(OficinaContext)
 
     const [exibirModal, setExibirModal] = useState(false)
+    const [servicoEdicao, setServicoEdicao] = useState<ServicoInterface>()
 
-    function abrirModal(){
+    function abrirModal() {
         setExibirModal(true)
     }
 
-    function fecharModal(){
+    function fecharModal() {
         setExibirModal(false)
     }
 
-    useEffect(() => {
-        console.log(clientes)
-    }, [])
+    function excluirServico(){}
+
+    function editarServico(servico: ServicoInterface){
+        setServicoEdicao(servico)
+    }
+
+    function salvarServico(servico: ServicoInterface) {
+        handleAdicionarServico!(servico)
+        
+    }
 
     return (
         <>
             <Button onClick={abrirModal}>Cadastrar Serviço</Button>
 
-            <ServicoFormulario open={exibirModal} handleCloseModal={fecharModal}></ServicoFormulario>
+            <ServicoFormulario 
+                servicoEdicao={servicoEdicao}
+                handleSalvarServico={salvarServico} 
+                open={exibirModal} 
+                handleCloseModal={fecharModal}></ServicoFormulario>
+
+            <ServicosTabela
+                servicos={servicos}
+                handleDeleteServico={excluirServico}
+                handleUpdateServico={editarServico}
+                ></ServicosTabela>
         </>
     )
 }

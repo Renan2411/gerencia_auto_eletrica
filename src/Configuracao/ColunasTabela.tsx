@@ -160,4 +160,75 @@ export function colunasTabelaPecas(pecas, handleDeletePeca, handleUpdatePeca) {
     return colunas
 }
 
+export function colunasTabelaServicos(servicos, handleDeleteServico, handleUpdateServico) {
+    const colunas: GridColDef[] = [
+        {
+            field: 'id',
+            headerName: 'ID',
+            width: 90,
+            renderCell: (params) => {
+
+                return (
+                    <>
+                        {servicos.indexOf(params.row) + 1}
+                    </>
+                );
+            },
+        },
+        {
+            field: 'cliente',
+            headerName: 'Cliente',
+            width: 150,
+            renderCell: (params) => {
+
+                return (
+                    <>
+                        {servicos.find(servico => servico.id === params.row.id).cliente.nome}
+                    </>
+                );
+            },
+        },
+        {
+            field: 'descricao',
+            headerName: 'Descrição',
+            width: 150,
+        },
+        {
+            field: 'valorTotal',
+            headerName: 'Valor Total',
+            width: 150,
+        },
+        {
+            field: 'actions',
+            headerName: 'Actions',
+            width: 120,
+            sortable: false,
+            editable: false,
+            renderCell: (params) => {
+                const excluirServico = () => {
+                    handleDeleteServico(params.row);
+                };
+
+                const editarServico = () => {
+                    console.log(params)
+                    handleUpdateServico(params.row);
+                };
+
+                return (
+                    <>
+                        <Icon className="icon-action" onClick={editarServico}>
+                            edit
+                        </Icon>
+                        <Icon className="icon-action" onClick={excluirServico}>
+                            delete
+                        </Icon>
+                    </>
+                );
+            },
+        }
+    ]
+
+    return colunas
+}
+
 
