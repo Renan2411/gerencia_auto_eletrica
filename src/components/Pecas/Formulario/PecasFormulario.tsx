@@ -1,5 +1,4 @@
 import { Box, Grid, Modal, TextField, Button } from "@mui/material";
-import './index.css'
 import { useEffect, useState } from "react";
 
 const style = {

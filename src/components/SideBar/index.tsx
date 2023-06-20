@@ -16,8 +16,6 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
 
 import opcoesMenu from '../../Configuracao/opcoesMenu'
 
@@ -26,6 +24,7 @@ import { Icon } from '@mui/material';
 import { BrowserRouter, Route, Routes, Link } from 'react-router-dom';
 import Clientes from '../Clientes/Clientes';
 import Servicos from '../Servicos/Servicos';
+import Inicio from '../Inicio/Inicio';
 
 const drawerWidth = 240;
 
@@ -149,11 +148,14 @@ export default function PersistentDrawerLeft() {
         </Drawer>
         <Main className='conteudo' open={open}>
           <DrawerHeader />
-          <Routes>
-            <Route path="/pecas" element={<Pecas />} />
-            <Route path="/clientes" element={<Clientes />} />
-            <Route path="/servicos" element={<Servicos />} />
-          </Routes>
+          <div className='corpo'>
+            <Routes>
+              <Route path="/" element={<Inicio />} />
+              <Route path="/pecas" element={<Pecas />} />
+              <Route path="/clientes" element={<Clientes />} />
+              <Route path="/servicos" element={<Servicos />} />
+            </Routes>
+          </div>
         </Main>
       </Box>
     </BrowserRouter>

@@ -2,7 +2,6 @@ import { useContext, useState } from "react";
 import PecasTabela from "./Tabela/PecasTabela";
 import { Button } from "@mui/material";
 import PecasFormulario from "./Formulario/PecasFormulario";
-import './index.css'
 import PecaInterface from "../../Interfaces/PecaInterface";
 import { OficinaContext } from "../../context/OficinaContext";
 import uuid from "react-uuid";

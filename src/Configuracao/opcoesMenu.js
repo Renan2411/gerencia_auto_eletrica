@@ -6,7 +6,7 @@ export default [
     {
         nome: 'Inicio',
         icone: 'home',
-        path: '/inicio'
+        path: '/'
     },
     {
         nome: 'Peças',

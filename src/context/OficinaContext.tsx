@@ -31,32 +31,6 @@ export const OficinaProvider = ({ children }) => {
     const [clientes, setClientes] = useState<ClienteInterface[]>([])
     const [servicos, setServicos] = useState<ServicoInterface[]>([])
 
-    useEffect(() => {
-        setClientes(clientes => [
-            ...clientes,
-            {
-                id: uuid(),
-                nome: 'Renan',
-                telefone: '6862888',
-                cpf: '033333',
-                endereco: 'em algum lugar',
-                email: 'renan@gmail.com',
-            }
-        ])
-
-        setPecas(pecas => [
-            ...pecas,
-            {
-                id: uuid(),
-                nome: 'Peça',
-                quantidade: 12,
-                descricao: 'Teste',
-                marca: 'Teste',
-                valor: 120,
-            }
-        ])
-    }, [])
-
 
     const handleAdicionarPeca = (novaPeca: PecaInterface) => {
         setPecas(pecas => [novaPeca, ...pecas])

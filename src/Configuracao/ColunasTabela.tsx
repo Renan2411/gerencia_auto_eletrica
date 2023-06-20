@@ -178,7 +178,7 @@ export function colunasTabelaServicos(servicos, handleDeleteServico, handleUpdat
         {
             field: 'cliente',
             headerName: 'Cliente',
-            width: 150,
+            width: 250,
             renderCell: (params) => {
 
                 return (
@@ -191,12 +191,12 @@ export function colunasTabelaServicos(servicos, handleDeleteServico, handleUpdat
         {
             field: 'descricao',
             headerName: 'Descrição',
-            width: 150,
+            width: 450,
         },
         {
             field: 'valorTotal',
             headerName: 'Valor Total',
-            width: 150,
+            width: 350,
         },
         {
             field: 'actions',

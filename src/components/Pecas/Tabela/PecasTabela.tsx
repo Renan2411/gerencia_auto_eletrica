@@ -1,6 +1,5 @@
 import { Box, Icon } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import './index.css'
 import { colunasTabelaPecas } from "../../../Configuracao/ColunasTabela";
 
 export default function PecasTabela({ pecas, handleUpdatePeca, handleDeletePeca }) {
