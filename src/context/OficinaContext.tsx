@@ -2,6 +2,7 @@ import { createContext, useEffect, useState } from 'react'
 import PecaInterface from '../Interfaces/PecaInterface'
 import ClienteInterface from '../Interfaces/ClienteInterface'
 import ServicoInterface from '../Interfaces/ServicoInterface';
+import uuid from 'react-uuid';
 
 interface ContextProps {
     pecas: PecaInterface[],
@@ -19,6 +20,8 @@ interface ContextProps {
     handleFindCliente: (idCliente: string) => void;
 
     handleAdicionarServico: (servico: ServicoInterface) => void;
+    handleEditarServico: (servico: ServicoInterface) => void;
+    handleDeletarServico: (idServico: string) => void;
 }
 
 export const OficinaContext = createContext<Partial<ContextProps>>({})
@@ -27,6 +30,33 @@ export const OficinaProvider = ({ children }) => {
     const [pecas, setPecas] = useState<PecaInterface[]>([])
     const [clientes, setClientes] = useState<ClienteInterface[]>([])
     const [servicos, setServicos] = useState<ServicoInterface[]>([])
+
+    useEffect(() => {
+        setClientes(clientes => [
+            ...clientes,
+            {
+                id: uuid(),
+                nome: 'Renan',
+                telefone: '6862888',
+                cpf: '033333',
+                endereco: 'em algum lugar',
+                email: 'renan@gmail.com',
+            }
+        ])
+
+        setPecas(pecas => [
+            ...pecas,
+            {
+                id: uuid(),
+                nome: 'Peça',
+                quantidade: 12,
+                descricao: 'Teste',
+                marca: 'Teste',
+                valor: 120,
+            }
+        ])
+    }, [])
+
 
     const handleAdicionarPeca = (novaPeca: PecaInterface) => {
         setPecas(pecas => [novaPeca, ...pecas])
@@ -77,21 +107,39 @@ export const OficinaProvider = ({ children }) => {
         setServicos(servicos => [...servicos, servico])
     }
 
+    const handleEditarServico = (servicoEditado: ServicoInterface) => {
+        console.log(servicoEditado);
+        
+        setServicos(servicos => servicos.map(servico => {
+            if (servico.id === servicoEditado.id) {
+                return { ...servicoEditado }
+            }
+
+            return servico
+        }))
+    }
+
+    const handleDeletarServico = (idServico: string) => {
+        setServicos(servicos => servicos.filter(servico => servico.id !== idServico))
+    }
+
     return (
         <OficinaContext.Provider
             value={{
-                pecas, 
-                clientes, 
+                pecas,
+                clientes,
                 servicos,
-                handleAdicionarPeca, 
-                handleEditarPeca, 
-                handleDeletarPeca, 
+                handleAdicionarPeca,
+                handleEditarPeca,
+                handleDeletarPeca,
                 handleFindPeca,
-                handleAdicionarCliente, 
-                handleDeletarCliente, 
+                handleAdicionarCliente,
+                handleDeletarCliente,
                 handleEditarCliente,
                 handleFindCliente,
-                handleAdicionarServico
+                handleAdicionarServico,
+                handleEditarServico,
+                handleDeletarServico
             }}>
             {children}
         </OficinaContext.Provider>

@@ -27,12 +27,13 @@ interface PecaUtilizadaInterface {
     quantidade: number
 }
 
-interface QuantidadePecaUtilizadaInterface {
-    idPeca: string,
-    quantidade: number
-}
-
-export default function ServicoFormulario({ open, servicoEdicao, handleCloseModal, handleSalvarServico }) {
+export default function ServicoFormulario({
+    open,
+    servicoEdicao,
+    handleCloseModal,
+    handleSalvarServico,
+    handleEditarServico
+}) {
 
     const { pecas, clientes, handleFindPeca, handleFindCliente } = useContext(OficinaContext)
 
@@ -40,26 +41,27 @@ export default function ServicoFormulario({ open, servicoEdicao, handleCloseModa
     const [descricao, setDescricao] = useState<string | null>()
     const [idCliente, setIdCliente] = useState<string>('')
     const [pecasUtilizadas, setPecasUtilizadas] = useState<PecaUtilizadaInterface[]>([])
-    const [quantidades, setQuantidades] = useState<QuantidadePecaUtilizadaInterface[]>([])
 
     useEffect(() => {
-        setData(servicoEdicao.data)
-        setDescricao(servicoEdicao.descricao)
-        setIdCliente(servicoEdicao.cliente.id)
+        if (servicoEdicao) {
+            setData(servicoEdicao.data)
+            setDescricao(servicoEdicao.descricao)
+            setIdCliente(servicoEdicao.cliente.id)
 
-        servicoEdicao.pecas.map((peca) => {
+            servicoEdicao.pecas.map((peca) => {
 
-            const quantidadePeca = servicoEdicao.quantidades.find(quantidade => quantidade.idPeca === peca.id)
+                const quantidadePeca = servicoEdicao.quantidades.find(quantidade => quantidade.idPeca === peca.id)
 
-            setPecasUtilizadas(pecasUtilizadas => [
-                ...pecasUtilizadas,
-                {
-                    index: uuid(),
-                    idPeca: peca.id,
-                    quantidade: quantidadePeca.quantidade
-                }
-            ])
-        })
+                setPecasUtilizadas(pecasUtilizadas => [
+                    ...pecasUtilizadas,
+                    {
+                        index: uuid(),
+                        idPeca: peca.id,
+                        quantidade: quantidadePeca.quantidade
+                    }
+                ])
+            })
+        }
 
     }, [servicoEdicao])
 
@@ -95,25 +97,27 @@ export default function ServicoFormulario({ open, servicoEdicao, handleCloseModa
 
     function tratarEventoCadastrarServico() {
         const pecasParaServico = []
+        const quantidades = []
         let valorTotal = 0
 
         pecasUtilizadas.map((peca) => {
+
 
             const retornoPecaFind = handleFindPeca!(peca.idPeca)
 
             pecasParaServico.push(retornoPecaFind)
 
-            setQuantidades(quantidades => [...quantidades, {
-                quantidade: peca.quantidade,
+            quantidades.push({
                 idPeca: peca.idPeca,
-            }])
+                quantidade: peca.quantidade
+            })
 
             valorTotal += peca.quantidade * retornoPecaFind.valor
 
         })
 
         const servico = {
-            id: uuid(),
+            id: servicoEdicao ? servicoEdicao.id : uuid(),
             data: data,
             descricao: descricao,
             pecas: pecasParaServico,
@@ -122,7 +126,14 @@ export default function ServicoFormulario({ open, servicoEdicao, handleCloseModa
             valorTotal: valorTotal
         }
 
-        handleSalvarServico(servico)
+
+        if (servicoEdicao) {
+            handleEditarServico(servico)
+        } else {
+
+            handleSalvarServico(servico)
+        }
+
         resetarDados()
     }
 
@@ -131,7 +142,6 @@ export default function ServicoFormulario({ open, servicoEdicao, handleCloseModa
         setDescricao('')
         setIdCliente('')
         setPecasUtilizadas([])
-        setQuantidades([])
     }
 
     return (
@@ -249,7 +259,7 @@ export default function ServicoFormulario({ open, servicoEdicao, handleCloseModa
                                     color="success"
                                     onClick={tratarEventoCadastrarServico}
                                 >
-                                    cadastrar
+                                    { servicoEdicao ? 'Editar' : 'Cadastrar'}
 
                                 </Button>
                             </Grid>

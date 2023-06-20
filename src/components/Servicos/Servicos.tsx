@@ -5,11 +5,23 @@ import { OficinaContext } from "../../context/OficinaContext";
 import ServicoInterface from "../../Interfaces/ServicoInterface";
 import ServicosTabela from "./Tabela/ServicoTabela";
 
+import pdfMake from "pdfmake/build/pdfmake";
+import pdfFonts from "pdfmake/build/vfs_fonts";
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
+
+import { Impressao } from '../../Configuracao/Impressao';
+
 export default function Servico() {
-    const { handleAdicionarServico, servicos } = useContext(OficinaContext)
+    const { servicos, handleAdicionarServico, handleEditarServico, handleDeletarServico } = useContext(OficinaContext)
 
     const [exibirModal, setExibirModal] = useState(false)
-    const [servicoEdicao, setServicoEdicao] = useState<ServicoInterface>()
+    const [servicoEdicao, setServicoEdicao] = useState<ServicoInterface | null>(null)
+
+    const visualizarImpressao = (servico) => {
+        const classeImpressao = new Impressao(servico);
+        const documento = classeImpressao.PrepararDocumento();
+        pdfMake.createPdf(documento).open({}, window.open('', '_blank'));
+    }
 
     function abrirModal() {
         setExibirModal(true)
@@ -19,32 +31,55 @@ export default function Servico() {
         setExibirModal(false)
     }
 
-    function excluirServico(){}
+    function excluirServico(servico: ServicoInterface) {
+        handleDeletarServico!(servico.id)
+    }
 
-    function editarServico(servico: ServicoInterface){
-        setServicoEdicao(servico)
+    function tratarEventoEditarServico(servico: ServicoInterface) {
+        setServicoEdicao({
+            id: servico.id,
+            cliente: servico.cliente,
+            data: servico.data,
+            descricao: servico.descricao,
+            pecas: servico.pecas,
+            quantidades: servico.quantidades,
+            valorTotal: servico.valorTotal
+        })
+        abrirModal()
+    }
+
+    function editarServico(servico: ServicoInterface) {
+        console.log('aqui');
+
+        handleEditarServico!(servico)
+        setServicoEdicao(null)
+        fecharModal()
     }
 
     function salvarServico(servico: ServicoInterface) {
         handleAdicionarServico!(servico)
-        
+        fecharModal()
+
     }
 
     return (
         <>
             <Button onClick={abrirModal}>Cadastrar Serviço</Button>
+            <Button onClick={visualizarImpressao}>Imprimir Serviço</Button>
 
-            <ServicoFormulario 
+            <ServicoFormulario
                 servicoEdicao={servicoEdicao}
-                handleSalvarServico={salvarServico} 
-                open={exibirModal} 
+                handleSalvarServico={salvarServico}
+                handleEditarServico={editarServico}
+                open={exibirModal}
                 handleCloseModal={fecharModal}></ServicoFormulario>
 
             <ServicosTabela
                 servicos={servicos}
+                handleImprimirServico={visualizarImpressao}
                 handleDeleteServico={excluirServico}
-                handleUpdateServico={editarServico}
-                ></ServicosTabela>
+                handleUpdateServico={tratarEventoEditarServico}
+            ></ServicosTabela>
         </>
     )
 }

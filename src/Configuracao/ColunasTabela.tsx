@@ -160,7 +160,7 @@ export function colunasTabelaPecas(pecas, handleDeletePeca, handleUpdatePeca) {
     return colunas
 }
 
-export function colunasTabelaServicos(servicos, handleDeleteServico, handleUpdateServico) {
+export function colunasTabelaServicos(servicos, handleDeleteServico, handleUpdateServico, handleImprimirServico) {
     const colunas: GridColDef[] = [
         {
             field: 'id',
@@ -210,8 +210,11 @@ export function colunasTabelaServicos(servicos, handleDeleteServico, handleUpdat
                 };
 
                 const editarServico = () => {
-                    console.log(params)
                     handleUpdateServico(params.row);
+                };
+
+                const imprimirServico = () => {
+                    handleImprimirServico(params.row);
                 };
 
                 return (
@@ -221,6 +224,9 @@ export function colunasTabelaServicos(servicos, handleDeleteServico, handleUpdat
                         </Icon>
                         <Icon className="icon-action" onClick={excluirServico}>
                             delete
+                        </Icon>
+                        <Icon className="icon-action" onClick={imprimirServico}>
+                            edit
                         </Icon>
                     </>
                 );
