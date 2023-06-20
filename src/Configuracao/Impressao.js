@@ -16,35 +16,6 @@ export class Impressao {
     }
 
     CriaCorpoDocumento() {
-        // const header = [
-        //     { text: 'Cliente', bold: true, fontSize: 9, margin: [0, 4, 0, 0] },
-        //     { text: 'Descrição', bold: true, fontSize: 9, margin: [0, 4, 0, 0] },
-        //     { text: 'Valor Total', bold: true, fontSize: 9, margin: [0, 4, 0, 0] },
-        // ];
-        // const body = this.dadosParaImpressao.map((prod) => {
-        //     return [
-        //         { text: prod.cliente.nome, fontSize: 8 },
-        //         { text: prod.descricao, fontSize: 8 },
-        //         { text: prod.valorTotal, fontSize: 8 },
-        //     ];
-        // });
-
-        // const lineHeader = [
-        //     {
-        //         text:
-        //             '__________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________',
-        //         alignment: 'center',
-        //         fontSize: 5,
-        //         colSpan: 3,
-        //     },
-        //     {},
-        //     {},
-        // ];
-
-        // let content = [header, lineHeader];
-        // content = [...content, ...body];
-        // return content;
-
         const header = [
             { text: 'Nome', bold: true, fontSize: 9, margin: [0, 4, 0, 0] },
             { text: 'Marca', bold: true, fontSize: 9, margin: [0, 4, 0, 0] },
@@ -69,7 +40,7 @@ export class Impressao {
         });
 
         body.push([
-            { text: '', fontSize: 8 },
+            { text: 'Valor Total', fontSize: 8 },
             { text: '', fontSize: 8 },
             { text: '', fontSize: 8 },
             { text: '', fontSize: 8 },

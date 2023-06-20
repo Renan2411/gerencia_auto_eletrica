@@ -226,7 +226,7 @@ export function colunasTabelaServicos(servicos, handleDeleteServico, handleUpdat
                             delete
                         </Icon>
                         <Icon className="icon-action" onClick={imprimirServico}>
-                            edit
+                            archive
                         </Icon>
                     </>
                 );

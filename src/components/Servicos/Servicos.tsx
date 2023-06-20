@@ -64,8 +64,11 @@ export default function Servico() {
 
     return (
         <>
-            <Button onClick={abrirModal}>Cadastrar Serviço</Button>
-            <Button onClick={visualizarImpressao}>Imprimir Serviço</Button>
+            <Button 
+                onClick={abrirModal} 
+                color="success" 
+                variant="contained" 
+                className="botao-cadastrar">Cadastrar Serviço</Button>
 
             <ServicoFormulario
                 servicoEdicao={servicoEdicao}

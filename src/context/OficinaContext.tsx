@@ -24,17 +24,41 @@ interface ContextProps {
     handleDeletarServico: (idServico: string) => void;
 }
 
+function setarLocalStorage(nomeObjeto: string, objeto: any){
+    localStorage.setItem(nomeObjeto, objeto)
+}
+
+function getLocaStorage(nomeObjeto: string){
+    const obj = localStorage.getItem(nomeObjeto)
+
+    console.log( obj ? JSON.parse(obj) : [])
+
+    return obj ? JSON.parse(obj) : []
+}
+
 export const OficinaContext = createContext<Partial<ContextProps>>({})
 
 export const OficinaProvider = ({ children }) => {
-    const [pecas, setPecas] = useState<PecaInterface[]>([])
-    const [clientes, setClientes] = useState<ClienteInterface[]>([])
-    const [servicos, setServicos] = useState<ServicoInterface[]>([])
+    const [pecas, setPecas] = useState<PecaInterface[] | any>(getLocaStorage('pecas'))
+    const [clientes, setClientes] = useState<ClienteInterface[] | any>(getLocaStorage('clientes'))
+    const [servicos, setServicos] = useState<ServicoInterface[] | any>(getLocaStorage('servicos'))
+
+
+    useEffect(() => {
+        setarLocalStorage('clientes', JSON.stringify(clientes))
+    }, [clientes])
+    
+    useEffect(() => {
+        setarLocalStorage('pecas', JSON.stringify(pecas))
+    }, [pecas])
+
+    useEffect(() => {
+        setarLocalStorage('servicos', JSON.stringify(servicos))
+    }, [servicos])
 
 
     const handleAdicionarPeca = (novaPeca: PecaInterface) => {
         setPecas(pecas => [novaPeca, ...pecas])
-        console.log(pecas)
     }
 
     const handleEditarPeca = (pecaEditada: PecaInterface) => {
